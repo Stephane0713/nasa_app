@@ -16,10 +16,10 @@ class MyApp extends StatelessWidget {
       title: 'TP Final',
       theme: ThemeData(
         colorScheme:
-            ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 255, 190, 149)),
+            ColorScheme.fromSeed(seedColor: Color.fromARGB(100, 255, 161, 161)),
         useMaterial3: false,
       ),
-      home: const HomePage(),
+      home: HomePage(),
     );
   }
 }
