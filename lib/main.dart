@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nasa_app/home_page.dart';
+import 'package:nasa_app/screens/home_page.dart';
 
 void main() {
   runApp(const MyApp());
