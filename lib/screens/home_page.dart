@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-import '../utils/api_key.dart' as myApiKey;
 import '../models/info_mission.dart';
 import '../widgets/mission_card.dart';
-import '../services/mission_service.dart'; // Import the MissionService
+import '../services/mission_service.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key? key}) : super(key: key);
@@ -19,7 +16,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    _fetchMissionInfo(); // Changed to call the function from the separate file
+    _fetchMissionInfo();
   }
 
   Future<void> _fetchMissionInfo() async {

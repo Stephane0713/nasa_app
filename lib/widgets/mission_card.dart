@@ -25,7 +25,6 @@ class MissionCard extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 10),
-            // Utiliser un widget Row pour aligner les informations à gauche et à droite
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
