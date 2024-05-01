@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:nasa_app/models/manifest_api_response.dart';
+import 'package:nasa_app/services/manifest_service.dart';
+import 'package:nasa_app/widgets/manifest_list.dart';
 import '../models/info_mission.dart';
 import '../widgets/mission_card.dart';
 import '../services/mission_service.dart';
@@ -12,11 +15,13 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   InfoMission? infoMission;
+  Manifest? manifest;
 
   @override
   void initState() {
     super.initState();
     _fetchMissionInfo();
+    _fetchManifest();
   }
 
   Future<void> _fetchMissionInfo() async {
@@ -24,6 +29,17 @@ class _HomePageState extends State<HomePage> {
       final missionInfo = await MissionService.fetchMissionInfo();
       setState(() {
         infoMission = missionInfo;
+      });
+    } catch (e) {
+      print('Error fetching mission info: $e');
+    }
+  }
+
+  Future<void> _fetchManifest() async {
+    try {
+      final manifestApiResponse = await ManifestService.fetchManifest();
+      setState(() {
+        manifest = manifestApiResponse!.manifest;
       });
     } catch (e) {
       print('Error fetching mission info: $e');
@@ -42,6 +58,9 @@ class _HomePageState extends State<HomePage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             MissionCard(infoMission: infoMission),
+            ManifestList(
+              manifest: manifest,
+            )
           ],
         ),
       ),
