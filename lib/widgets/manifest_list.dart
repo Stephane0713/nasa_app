@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:nasa_app/models/manifest_api_response.dart';
+import 'package:nasa_app/screens/photos_page.dart';
 
 class ManifestList extends StatelessWidget {
   final Manifest? manifest;
@@ -24,6 +25,8 @@ class ManifestList extends StatelessWidget {
             itemCount: manifest!.photos!.length,
             itemBuilder: (context, index) {
               return ListTile(
+                onTap: () => Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => PhotosPage())),
                 title: Text("on ${manifest!.photos![index].earthDate}"),
                 leading: Text("Sol ${manifest!.photos![index].sol}"),
                 trailing: Text("${manifest!.photos![index].totalPhotos}"),

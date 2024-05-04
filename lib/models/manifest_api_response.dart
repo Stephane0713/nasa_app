@@ -87,10 +87,4 @@ class ManifestApiResponse {
         ? Manifest.fromJson(json['photo_manifest'])
         : null;
   }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = {};
-    data['photo_manifest'] = manifest?.toJson();
-    return data;
-  }
 }
