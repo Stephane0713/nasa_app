@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:nasa_app/services/mission_service.dart';
 
 class DrawerMenu extends StatefulWidget {
   final Function(String) onTap;
@@ -11,23 +10,14 @@ class DrawerMenu extends StatefulWidget {
 }
 
 class _DrawerMenuState extends State<DrawerMenu> {
-  List<String> roverNames = [];
+  List<String> roverNames = [
+    "curiosity", "opportunity", "spirit"
+  ];
 
   @override
   void initState() {
     super.initState();
-    _fetchRoverNames();
-  }
-
-  Future<void> _fetchRoverNames() async {
-    try {
-      final missions = await MissionService.fetchMissionInfoForAllRovers();
-      setState(() {
-        roverNames = missions.map((mission) => mission.roverName).toList();
-      });
-    } catch (e) {
-      print('Error: $e');
-    }
+    // _fetchRoverNames();
   }
 
   @override
