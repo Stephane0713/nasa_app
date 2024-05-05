@@ -15,32 +15,25 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  String currentRover = "curiosity";
   InfoMission? infoMission;
   Manifest? manifest;
 
   @override
   void initState() {
     super.initState();
-    _fetchMissionInfo();
-    _fetchManifest();
+    _fetchMissionAndManifest();
   }
 
-  Future<void> _fetchMissionInfo() async {
+  Future<void> _fetchMissionAndManifest() async {
     try {
-      final missionInfo = await MissionService.fetchMissionInfoForAllRovers();
-      setState(() {
-        infoMission = missionInfo.first;
-      });
-    } catch (e) {
-      print('Error fetching mission info: $e');
-    }
-  }
+      final missionInfo = await MissionService.fetchMission(currentRover);
+      final manifestApiResponse =
+          await ManifestService.fetchManifest(currentRover);
 
-  Future<void> _fetchManifest() async {
-    try {
-      final manifestApiResponse = await ManifestService.fetchManifest();
       setState(() {
-        manifest = manifestApiResponse!.manifest;
+        infoMission = missionInfo;
+        manifest = manifestApiResponse?.manifest;
       });
     } catch (e) {
       print('Error fetching mission info: $e');
@@ -53,20 +46,31 @@ class _HomePageState extends State<HomePage> {
         appBar: AppBar(
           title: const Text('Mars Rover'),
         ),
-        body: SingleChildScrollView(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              MissionCard(infoMission: infoMission),
-              ManifestList(
-                manifest: manifest,
-              )
-            ],
-          ),
-        ),
+        body: infoMission != null && manifest != null
+            ? SingleChildScrollView(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    MissionCard(infoMission: infoMission),
+                    ManifestList(
+                      rover: currentRover,
+                      manifest: manifest,
+                    )
+                  ],
+                ))
+            : const Center(
+                child: CircularProgressIndicator(),
+              ),
         drawer: DrawerMenu(onTap: (roverName) {
-          print('Rover name: $roverName');
+          setState(() {
+            currentRover = roverName;
+            manifest = null;
+            infoMission = null;
+          });
+          _fetchMissionAndManifest();
+          Navigator.pop(context);
         }));
   }
 }

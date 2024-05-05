@@ -4,7 +4,12 @@ import 'package:nasa_app/models/photo.dart';
 import 'package:nasa_app/services/photo_service.dart';
 
 class PhotosPage extends StatefulWidget {
-  PhotosPage({Key? key}) : super(key: key);
+  final String rover;
+  final int sol;
+
+  // Constructor accepting 'rover' and 'sol' parameters
+  PhotosPage({Key? key, required this.rover, required this.sol})
+      : super(key: key);
 
   @override
   _PhotosPageState createState() => _PhotosPageState();
@@ -24,7 +29,7 @@ class _PhotosPageState extends State<PhotosPage> {
   Future<void> _fetchPhotos() async {
     try {
       final photosResponse =
-          await PhotoService.fetchPhotos("curiosity", 1000, page);
+          await PhotoService.fetchPhotos(widget.rover, widget.sol, page);
       setState(() {
         photos = photosResponse?.photos;
       });
